@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor y Resolución de Ecuaciones</title>
+    <script>
+        function procesarTexto() {
+            let texto = document.getElementById('textoOCR').value;
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '/procesar', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({ texto: texto }));
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('resultados').innerHTML = xhr.responseText;
+                } else {
+                    document.getElementById('resultados').innerHTML = 'Error procesando la ecuación.';
+                }
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>Editor y Resolución de Ecuaciones</h1>
+    <p>Texto original reconocido:</p>
+    <textarea id="textoOCR" style="width:100%; height:150px;">Cramer 3x3
+
+2x -ytz=-2
+x+2y+Z=3
+3x+2y+2z7=2
+</textarea>
+    <br>
+    <button onclick="procesarTexto()">Procesar Ecuación</button>
+    <h2>Resultados:</h2>
+    <div id="resultados"></div>
+</body>
+</html>

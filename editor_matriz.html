@@ -1,0 +1,54 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Editor de Ecuaciones</title>
+        <script>
+            function procesarTexto() {
+                const texto = document.getElementById('textoOCR').value;
+                const terminos = texto.match(/[+-]?\s*\d*[a-zA-Z]+|[+-]?\d+/g) || [];
+                const terminosHTML = terminos.map(t => `<li>${t.trim()}</li>`).join("");
+                document.getElementById('terminos').innerHTML = `<ul>${terminosHTML}</ul>`;
+
+                // Enviar texto al backend para procesarlo y generar la matriz y vector
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/procesar', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        document.getElementById('matriz').innerHTML = response.matriz;
+                        document.getElementById('vector').innerHTML = response.vector;
+                    }
+                };
+                xhr.send(JSON.stringify({ texto: texto }));
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Editor de Ecuaciones</h1>
+        <p><strong>Texto original reconocido:</strong></p>
+        <textarea id="textoOCR" style="width:100%; height:150px;">Cramer 3x3
+
+2x -ytz=-2
+x+2y+Z=3
+3x+2y+2z7=2
+</textarea>
+        <br>
+        <button onclick="procesarTexto()">Procesar Términos</button>
+        <h2>Términos Separados:</h2>
+        <div id="terminos"></div>
+
+        <h2>Coeficientes y Términos Independientes:</h2>
+        <!-- Matriz A y vector b -->
+        <div class="mb-3">
+            <label for="matriz" class="form-label">Coeficientes de la matriz A y términos independientes b:</label>
+            <div class="row">
+                
+            </div>
+        </div>
+    </body>
+    </html>
+    

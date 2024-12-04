@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Resultado</title>
+</head>
+<body>
+    <h1>Resultado del Método de Jacobi</h1>
+    <p>Solución: {{ resultado }}</p>
+    <h3>Iteraciones:</h3>
+    <ul>
+        {% for iteracion in iteraciones %}
+        <li>Iteración {{ iteracion.iteracion }}: {{ iteracion.x_actual }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

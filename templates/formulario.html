@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Formulario</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Editar el Sistema de Ecuaciones</h1>
+        <form action="/resolver_jacobi" method="post">
+            <input type="hidden" name="tamano_matriz" value="{{ tamano }}">
+
+            <h3>Coeficientes:</h3>
+            {% for i in range(tamano) %}
+            <div>
+                {% for j in range(tamano) %}
+                <input type="number" step="any" name="A_{{ i }}_{{ j }}" value="{{ matriz[i][j] }}" required>
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+            <h3>Vector Independiente:</h3>
+            {% for i in range(tamano) %}
+            <input type="number" step="any" name="b_{{ i }}" value="{{ vector[i] }}" required>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">Resolver</button>
+        </form>
+    </div>
+</body>
+</html>
